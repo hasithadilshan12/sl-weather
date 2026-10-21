@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const [city, setCity] = useState('Colombo') // Set default text in search bar
+  const [city, setCity] = useState('Colombo')
   const [weather, setWeather] = useState(null)
   const [forecast, setForecast] = useState(null)
   const [aqi, setAqi] = useState(null)
@@ -10,34 +10,27 @@ function App() {
 
   const API_KEY = '09607bb24161667ee9aee73113169c80'
 
-  // useEffect runs once when the app first loads
   useEffect(() => {
-    fetchWeather('Colombo') // Automatically search Colombo on load
+    fetchWeather('Colombo')
   }, [])
 
-  // We pass 'searchCity' so it works for both the default load and manual button clicks
   const fetchWeather = async (searchCity) => {
     try {
-      // 1. Fetch Current Weather
       const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${searchCity},LK&appid=${API_KEY}&units=metric`)
       if (!weatherRes.ok) throw new Error('City not found. Please check spelling.')
       const weatherData = await weatherRes.json()
       setWeather(weatherData)
 
-      // We need the latitude and longitude from the weather data to get the Air Quality
       const lat = weatherData.coord.lat
       const lon = weatherData.coord.lon
 
-      // 2. Fetch Air Quality Index (AQI)
       const aqiRes = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
       const aqiData = await aqiRes.json()
       setAqi(aqiData.list[0])
 
-      // 3. Fetch 5-Day Forecast
       const forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${searchCity},LK&appid=${API_KEY}&units=metric`)
       const forecastData = await forecastRes.json()
       
-      // The forecast API gives 40 items (every 3 hours). We filter it to grab just the 12:00 PM forecast for each day.
       const dailyForecast = forecastData.list.filter(item => item.dt_txt.includes('12:00:00'))
       setForecast(dailyForecast)
 
@@ -50,7 +43,6 @@ function App() {
     }
   }
 
-  // A simple helper function to turn the AQI number (1-5) into readable text
   const getAqiInfo = (index) => {
     switch(index) {
       case 1: return { text: 'Good', color: '#5be9ad' }
@@ -66,7 +58,6 @@ function App() {
     <div className="dark-dashboard">
       <header className="header">
         <div className="logo">
-          {/* Upgraded from an emoji to a professional, scalable SVG icon */}
           <svg className="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00daf3" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
           </svg>
@@ -81,7 +72,6 @@ function App() {
             placeholder="Search Sri Lankan city..." 
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            // This checks if the key pressed was 'Enter' and triggers the search
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 fetchWeather(city)
@@ -135,7 +125,6 @@ function App() {
             </div>
 
             <div className="bottom-row">
-              {/* Air Quality Card */}
               <div className="card sub-card">
                 <h3>Air Quality Index</h3>
                 {aqi ? (
@@ -159,13 +148,11 @@ function App() {
                 )}
               </div>
 
-              {/* 5-Day Forecast Card */}
               <div className="card sub-card">
                 <h3>5-Day Forecast (Noon)</h3>
                 {forecast ? (
                   <div className="forecast-list">
                     {forecast.map((day, index) => {
-                      // Turn the date string into a readable day name (e.g., "Monday")
                       const date = new Date(day.dt_txt);
                       const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
 

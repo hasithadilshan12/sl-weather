@@ -1,7 +1,6 @@
-/* Dark Dashboard Theme inspired by Stitch */
 .dark-dashboard {
   min-height: 100vh;
-  background-color: #0b1326; /* Deep navy background */
+  background-color: #0b1326;
   color: #dae2fd;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -28,7 +27,7 @@
 .logo h1 {
   margin: 0;
   font-size: 20px;
-  color: #00daf3; /* Neon cyan */
+  color: #00daf3;
 }
 
 .logo p {
@@ -77,7 +76,6 @@
   gap: 20px;
 }
 
-/* Card Styling */
 .card {
   background: linear-gradient(145deg, #171f33, #0b1326);
   border: 1px solid #2d3449;
@@ -167,7 +165,6 @@
   font-weight: bold;
 }
 
-/* Bottom layout */
 .bottom-row {
   display: flex;
   gap: 20px;
@@ -210,7 +207,6 @@
   font-size: 18px;
 }
 
-/* Air Quality Card Styling */
 .aqi-content {
   display: flex;
   flex-direction: column;
@@ -247,7 +243,6 @@
   font-size: 14px;
 }
 
-/* 5-Day Forecast Styling */
 .forecast-list {
   display: flex;
   flex-direction: column;
